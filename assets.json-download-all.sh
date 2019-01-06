@@ -31,13 +31,17 @@ echo -en "$H# Filter lists in total: $L"
 grep -c '$' assets.json-key-url.txt
 
 
-echo -e "$H# Donwloading lists$L"
+echo -e "$H# Downloading lists$L"
 while read -r key url title
 do
 
     echo -e "$H# $key$L"
-    curl --compressed --location --progress-bar --create-dirs --output "assets.json_resources/$key" "$url"
-    echo -e "$title" > "assets.json_resources/${key}_title.txt"
+    if curl --compressed --location --progress-bar --create-dirs --output "assets.json_resources/$key" "$url"
+    then
+        echo -e "$title" > "assets.json_resources/${key}_title.txt"
+    else
+        echo -e "$H# Downloading failed$L"
+    fi
 
 done < assets.json-key-url.txt
 

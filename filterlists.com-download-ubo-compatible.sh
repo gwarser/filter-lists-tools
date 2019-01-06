@@ -49,13 +49,17 @@ echo -en "$H# Filter lists in total: $L"
 grep -c '$' filterlists.com-id-url-name.txt
 
 
-echo -e "$H# Donwloading lists$L"
+echo -e "$H# Downloading lists$L"
 while read -r id url name
 do
 
     echo -e "$H# $id: $name$L"
-    curl --compressed --location --progress-bar --create-dirs --output "filterlists.com_resources/$id.txt" "$url"
-    echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
+    if curl --compressed --location --progress-bar --create-dirs --output "filterlists.com_resources/$id.txt" "$url"
+    then
+        echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
+    else
+        echo -e "$H# Downloading failed$L"
+    fi
 
 done < filterlists.com-id-url-name.txt
 
