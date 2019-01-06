@@ -6,13 +6,13 @@ H="\033[1m"
 L="\033[0m"
 
 
-if ! curl --version
+if ! curl --version &>/dev/null
 then
     echo -e "$H# curl is required, exiting$L"
     exit
 fi
 
-if ! jq --version
+if ! jq --version &>/dev/null
 then
     echo -e "$H# jq is required, exiting$L"
     exit
