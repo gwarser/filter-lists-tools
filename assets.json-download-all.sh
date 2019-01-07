@@ -24,27 +24,27 @@ curl --compressed --location --progress-bar --output assets.json https://raw.git
 
 
 echo -e "$H# Extracting ID's and URL's$L"
-jq --raw-output 'to_entries[] | select(.value.content == "filters") | "\(.key) \([.value.contentURL] | flatten[0]) \(.value.title)"' assets.json > assets.json-key-url.txt
+jq --raw-output 'to_entries[] | select(.value.content == "filters") | "\(.key) \([.value.contentURL] | flatten[0]) \(.value.title)"' assets.json > assets.json-id-url-name.txt
 
 
 echo -en "$H# Filter lists in total: $L"
-grep -c '$' assets.json-key-url.txt
+grep -c '$' assets.json-id-url-name.txt
 
 
 echo -e "$H# Downloading lists$L"
-while read -r key url title
+while read -r id url name
 do
 
-    echo -e "$H# $key$L"
-    if curl --compressed --location --progress-bar --create-dirs --output "assets.json_resources/$key" "$url"
+    echo -e "$H# $id$L"
+    if curl --compressed --location --progress-bar --create-dirs --output "assets.json_resources/$id" "$url"
     then
-        echo -e "$title" > "assets.json_resources/${key}_title.txt"
+        echo -e "$name" > "assets.json_resources/${id}_name.txt"
     else
         echo -e "$H# Downloading failed$L"
-        echo -e "$key $url $title" >> "assets.json-failed-downloads.txt"
+        echo -e "$id $url $name" >> "assets.json-failed-downloads.txt"
     fi
 
-done < assets.json-key-url.txt
+done < assets.json-id-url-name.txt
 
 
 echo -e "$H# Done$L"
