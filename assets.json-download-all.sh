@@ -36,7 +36,9 @@ while read -r id url name
 do
 
     echo -e "$H# $id$L"
-    if curl --compressed --location --progress-bar --create-dirs --output "assets.json_resources/$id" "$url"
+    if curl --compressed --location --progress-bar --create-dirs --time-cond "assets.json_resources/$id" \
+        --output "assets.json_resources/$id" "$url"
+
     then
         echo -e "$name" > "assets.json_resources/${id}_name.txt"
     else

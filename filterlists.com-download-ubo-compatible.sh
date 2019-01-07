@@ -54,7 +54,9 @@ while read -r id url name
 do
 
     echo -e "$H# $id: $name$L"
-    if curl --compressed --location --progress-bar --create-dirs --output "filterlists.com_resources/$id.txt" "$url"
+    if curl --compressed --location --progress-bar --create-dirs --time-cond "filterlists.com_resources/$id.txt" \
+        --output "filterlists.com_resources/$id.txt" "$url"
+
     then
         echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
     else
