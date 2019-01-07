@@ -41,6 +41,7 @@ do
         echo -e "$title" > "assets.json_resources/${key}_title.txt"
     else
         echo -e "$H# Downloading failed$L"
+        echo -e "$key $url $title" >> "assets.json-failed-downloads.txt"
     fi
 
 done < assets.json-key-url.txt

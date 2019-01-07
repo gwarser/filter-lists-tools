@@ -59,6 +59,7 @@ do
         echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
     else
         echo -e "$H# Downloading failed$L"
+        echo -e "$id $url $name" >> "filterlists.com-failed-downloads.txt"
     fi
 
 done < filterlists.com-id-url-name.txt
