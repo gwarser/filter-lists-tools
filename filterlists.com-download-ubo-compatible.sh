@@ -20,28 +20,28 @@ fi
 
 
 echo -e "$H# Downloading filterlists.com software table$L"
-curl --compressed --location --progress-bar --output filterlists.com-software.raw https://filterlists.com/api/v1/software
+curl --compressed --location --progress-bar --output filterlists.com-software.min.json https://filterlists.com/api/v1/software
 
 # echo -e "$H# Pretty print filterlists.com software table$L"
-# jq '.' < filterlists.com-software.raw > filterlists.com-software.json
+# jq '.' < filterlists.com-software.min.json > filterlists.com-software.json
 
 
 echo -e "$H# Downloading filterlists.com lists table$L"
-curl --compressed --location --progress-bar --output filterlists.com-lists.raw https://filterlists.com/api/v1/lists
+curl --compressed --location --progress-bar --output filterlists.com-lists.min.json https://filterlists.com/api/v1/lists
 
 # echo -e "$H# Pretty print filterlists.com lists table$L"
-# jq '.' < filterlists.com-lists.raw > filterlists.com-lists.json
+# jq '.' < filterlists.com-lists.min.json > filterlists.com-lists.json
 
 
 echo -e "$H# Extracting id, viewUrl and name$L"
 # 20% faster?
-# jq --null-input --raw-output --slurpfile SOFT filterlists.com-software.raw --slurpfile LISTS filterlists.com-lists.raw \
+# jq --null-input --raw-output --slurpfile SOFT filterlists.com-software.min.json --slurpfile LISTS filterlists.com-lists.min.json \
 #  '$SOFT[0][]|select(.name == "uBlock Origin").syntaxIds as $IDS | $LISTS[0][]|select(.syntaxId|inside($IDS[])) | "\(.id) \(.viewUrl) \(.name)"' \
 #  > filterlists.com-id-url-name.txt
 
-jq --raw-output --slurpfile SOFT filterlists.com-software.raw \
+jq --raw-output --slurpfile SOFT filterlists.com-software.min.json \
  '.[] | select(.syntaxId|inside($SOFT[0][]|select(.name == "uBlock Origin").syntaxIds[])) | "\(.id) \(.viewUrl) \(.name)"' \
- < filterlists.com-lists.raw \
+ < filterlists.com-lists.min.json \
  > filterlists.com-id-url-name.txt
  
  
