@@ -20,14 +20,16 @@ fi
 
 
 echo -e "$H# Downloading filterlists.com software table$L"
-curl --compressed --location --progress-bar --output filterlists.com-software.min.json https://filterlists.com/api/v1/software
+curl --compressed --location --progress-bar --time-cond filterlists.com-software.min.json \
+    --output filterlists.com-software.min.json https://filterlists.com/api/v1/software
 
 # echo -e "$H# Pretty print filterlists.com software table$L"
 # jq '.' < filterlists.com-software.min.json > filterlists.com-software.json
 
 
 echo -e "$H# Downloading filterlists.com lists table$L"
-curl --compressed --location --progress-bar --output filterlists.com-lists.min.json https://filterlists.com/api/v1/lists
+curl --compressed --location --progress-bar --time-cond filterlists.com-lists.min.json \
+    --output filterlists.com-lists.min.json https://filterlists.com/api/v1/lists
 
 # echo -e "$H# Pretty print filterlists.com lists table$L"
 # jq '.' < filterlists.com-lists.min.json > filterlists.com-lists.json

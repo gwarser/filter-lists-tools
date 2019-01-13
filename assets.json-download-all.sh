@@ -20,11 +20,13 @@ fi
 
 
 echo -e "$H# Downloading assets.json$L"
-curl --compressed --location --progress-bar --output assets.json https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json
+curl --compressed --location --progress-bar --time-cond assets.json \
+    --output assets.json https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json
 
 
 echo -e "$H# Extracting ID's and URL's$L"
-jq --raw-output 'to_entries[] | select(.value.content == "filters") | "\(.key) \([.value.contentURL] | flatten[0]) \(.value.title)"' assets.json > assets.json-id-url-name.txt
+jq --raw-output 'to_entries[] | select(.value.content == "filters") | "\(.key) \([.value.contentURL] | flatten[0]) \(.value.title)"' \
+    assets.json > assets.json-id-url-name.txt
 
 
 echo -en "$H# Filter lists in total: $L"
