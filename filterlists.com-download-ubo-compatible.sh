@@ -54,6 +54,10 @@ while read -r id url name
 do
 
     echo -e "$H# $id: $name$L"
+
+    if [[ "$url" == *.zip ]]; then echo  -e "$H# Skipping zip compressed list$L"; continue; fi
+    if [[ "$url" == *.7z ]]; then echo  -e "$H# Skipping 7z compressed list$L"; continue; fi
+
     if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "filterlists.com_resources/$id.txt" \
         --output "filterlists.com_resources/$id.txt" "$url"
 
