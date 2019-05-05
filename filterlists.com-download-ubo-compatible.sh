@@ -45,7 +45,7 @@ echo -e "$H# Extracting id, viewUrl and name$R"
 #  > filterlists.com-id-url-name.txt
 
 jq --raw-output --slurpfile SOFT filterlists.com-software.min.json \
- '.[] | select(.syntaxId|inside($SOFT[0][]|select(.name == "uBlock Origin").syntaxIds[])) | "\(.id) \(.viewUrl) \(.name)"' \
+ '.[] | select(.syntaxId|inside($SOFT[0][]|select(.name == "uBlock Origin").syntaxIds[])?) | "\(.id) \(.viewUrl) \(.name)"' \
  < filterlists.com-lists.min.json \
  > filterlists.com-id-url-name.txt
  
