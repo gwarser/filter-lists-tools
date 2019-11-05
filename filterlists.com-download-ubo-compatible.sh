@@ -67,8 +67,12 @@ do
         continue
     fi
 
-    if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "filterlists.com_resources/$id.txt" \
-        --output "filterlists.com_resources/$id.txt" "$url"
+#   Order in characters list is important.
+    safename=$(echo -e "$name" | tr -cd -- "&'()+,. [:alnum:]_-")
+    filepath="filterlists.com_resources/${id}_$safename.txt"
+
+    if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
+        --output "$filepath" "$url"
 
     then
         echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
