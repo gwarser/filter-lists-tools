@@ -3,14 +3,14 @@
 Uses `curl` for downloading data in compressed form (if supported by server) and [`jq`](https://stedolan.github.io/jq/) for parsing JSON data.
 
 
-## assets.json-download-all.sh
+## download-assets.json-all.sh
 
 Queries uBO [assets.json](https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json) for filter list URLs and downloads them all into `assets.json_resources/` subdirectory.
 
 This tool requires around 17MB of disk space. 
 
 
-## filterlists.com-download-ubo-compatible.sh
+## download-filterlists.com-ubo-compatible.sh
 
 Queries [filterlists.com](https://filterlists.com/) [API](https://filterlists.com/api/docs/index.html) for all uBO supported filter lists and downloads them all into `filterlists.com_resources/` subdirectory.
 
