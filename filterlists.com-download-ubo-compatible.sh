@@ -51,14 +51,16 @@ jq --raw-output --slurpfile SOFT filterlists.com-software.min.json \
  
  
 echo -en "$H# Filter lists in total: $R"
-grep -c '$' filterlists.com-id-url-name.txt
+ALL=$(grep -c '$' filterlists.com-id-url-name.txt)
+echo "$ALL"
 
-
+CUR=0
 echo -e "$H# Downloading lists$R"
 while read -r id url name
 do
 
-    echo -e "$L$id: $name$R"
+    ((CUR++))
+    echo -e "$L$CUR/$ALL: $name ($id)$R"
 
     if [[ "$url" == *.zip || "$url" == *.7z ]]
     then
