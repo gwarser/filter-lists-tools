@@ -79,8 +79,9 @@ do
     then
         echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
     else
+        ret=$?
         echo -e "$E# Downloading failed$R"
-        echo -e "$(date +%F): 404: $id $url $name" >> "filterlists.com-failed-downloads.txt"
+        echo -e "$(date +%F): 404($ret): $id $url $name" >> "filterlists.com-failed-downloads.txt"
     fi
 
 done < filterlists.com-id-url-name.txt

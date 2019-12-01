@@ -49,8 +49,9 @@ do
     then
         echo -e "$name" > "assets.json_resources/${id}_name.txt"
     else
+        ret=$?
         echo -e "$H# Downloading failed$L"
-        echo -e "$id $url $name" >> "assets.json-failed-downloads.txt"
+        echo -e "$?: $id $url $name" >> "assets.json-failed-downloads.txt"
     fi
 
 done < assets.json-id-url-name.txt
