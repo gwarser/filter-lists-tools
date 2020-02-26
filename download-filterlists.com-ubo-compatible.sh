@@ -65,7 +65,7 @@ do
     if [[ "$url" == *.zip || "$url" == *.7z ]]
     then
         echo -e "$W# Compressed, skipping$R"
-        echo -e "$(date +%F): zip: $id $url $name" >> "filterlists.com-failed-downloads.txt"
+        echo -e "$(date +%F):\tzip:\t$id\t$url\t$name" >> "filterlists.com-failed-downloads.txt"
         continue
     fi
 
@@ -73,7 +73,7 @@ do
     safename=$(echo -e "$name" | tr -cd -- "&'()+,. [:alnum:]_-")
     filepath="filterlists.com_resources/${id}_$safename.txt"
 
-    if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
+    if curl --limit-rate 32k --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
         --output "$filepath" "$url"
 
     then
@@ -81,7 +81,7 @@ do
     else
         ret=$?
         echo -e "$E# Downloading failed$R"
-        echo -e "$(date +%F): 404($ret): $id $url $name" >> "filterlists.com-failed-downloads.txt"
+        echo -e "$(date +%F):\t404($ret):\t$id\t$url\t$name" >> "filterlists.com-failed-downloads.txt"
     fi
 
 done < filterlists.com-id-url-name.txt
