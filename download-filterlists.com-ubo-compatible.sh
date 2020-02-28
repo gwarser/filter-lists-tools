@@ -23,16 +23,26 @@ fi
 
 
 echo -e "$H# Downloading filterlists.com software table$R"
-curl --compressed --location --progress-bar --time-cond filterlists.com-software.min.json \
+if ! curl --compressed --location --progress-bar --time-cond filterlists.com-software.min.json \
     --output filterlists.com-software.min.json https://filterlists.com/api/v1/software
+
+then
+    echo -e "$E# Failed to download filterlists.com software table$R"
+    exit
+fi
+
 
 # echo -e "$H# Pretty print filterlists.com software table$R"
 # jq '.' < filterlists.com-software.min.json > filterlists.com-software.json
 
 
 echo -e "$H# Downloading filterlists.com lists table$R"
-curl --compressed --location --progress-bar --time-cond filterlists.com-lists.min.json \
+if ! curl --compressed --location --progress-bar --time-cond filterlists.com-lists.min.json \
     --output filterlists.com-lists.min.json https://filterlists.com/api/v1/lists
+
+then
+    echo -e "$E# Failed to download filterlists.com lists table$R"
+fi
 
 # echo -e "$H# Pretty print filterlists.com lists table$R"
 # jq '.' < filterlists.com-lists.min.json > filterlists.com-lists.json

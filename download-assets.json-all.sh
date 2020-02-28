@@ -20,8 +20,13 @@ fi
 
 
 echo -e "$H# Downloading assets.json$L"
-curl --compressed --location --progress-bar --time-cond assets.json \
+if ! curl --compressed --location --progress-bar --time-cond assets.json \
     --output assets.json https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json
+
+then
+    echo -e "$E# Failed to download assets.json$L"
+    exit
+fi
 
 
 echo -e "$H# Extracting ID's and URL's$L"
