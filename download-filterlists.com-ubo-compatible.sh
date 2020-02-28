@@ -83,7 +83,7 @@ do
     safename=$(echo -e "$name" | tr -cd -- "&'()+,. [:alnum:]_-")
     filepath="filterlists.com_resources/${id}_$safename.txt"
 
-    if curl --limit-rate 32k --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
+    if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
         --output "$filepath" "$url"
 
     then
