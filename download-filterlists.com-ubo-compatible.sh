@@ -72,7 +72,7 @@ do
     ((CUR++))
     echo -e "$L$CUR/$ALL: $name ($id)$R"
 
-    if [[ "$url" == *.zip || "$url" == *.7z ]]
+    if [[ "$url" == *.zip || "$url" == *.7z || "$url" == *.tar.gz ]]
     then
         echo -e "$W# Compressed, skipping$R"
         echo -e "$(date +%F):\tzip:\t$id\t$url\t$name" >> "failed-downloads-filterlists.com.txt"
