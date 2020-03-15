@@ -75,7 +75,7 @@ do
     if [[ "$url" == *.zip || "$url" == *.7z ]]
     then
         echo -e "$W# Compressed, skipping$R"
-        echo -e "$(date +%F):\tzip:\t$id\t$url\t$name" >> "filterlists.com-failed-downloads.txt"
+        echo -e "$(date +%F):\tzip:\t$id\t$url\t$name" >> "failed-downloads-filterlists.com.txt"
         continue
     fi
 
@@ -91,7 +91,7 @@ do
     else
         ret=$?
         echo -e "$E# Downloading failed$R"
-        echo -e "$(date +%F):\t404($ret):\t$id\t$url\t$name" >> "filterlists.com-failed-downloads.txt"
+        echo -e "$(date +%F):\t404($ret):\t$id\t$url\t$name" >> "failed-downloads-filterlists.com.txt"
     fi
 
 done < filterlists.com-id-url-name.txt

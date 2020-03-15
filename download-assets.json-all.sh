@@ -56,7 +56,7 @@ do
     else
         ret=$?
         echo -e "$H# Downloading failed$L"
-        echo -e "$(date +%F):\t($ret):\t$id\t$url\t$name" >> "assets.json-failed-downloads.txt"
+        echo -e "$(date +%F):\t($ret):\t$id\t$url\t$name" >> "failed-downloads-assets.json.txt"
     fi
 
 done < assets.json-id-url-name.txt
