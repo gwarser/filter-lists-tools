@@ -71,7 +71,7 @@ jq --raw-output --null-input \
     --slurpfile FILTERLISTSYNTAX filterlists.com-FilterListSyntax.json \
     --slurpfile FILTERLISTS filterlists.com-FilterList.json \
     --slurpfile VIEWURL filterlists.com-FilterListViewUrl.json \
-    '$SOFTWARE[0][]|select(.name=="uBlock Origin").id as $vSoftId | $SOFTWARESYNTAX[0][]|select(.softwareId==$vSoftId).syntaxId as $vSoftSyntax | $FILTERLISTSYNTAX[0][]|select(.syntaxId|inside($vSoftSyntax)).filterListId as $vFilterListId | $FILTERLISTS[0][]|select(.id==$vFilterListId) as $vFilterList | {name:$vFilterList.name, data:[$VIEWURL[0][]|select(.filterListId==$vFilterList.id)]} | "\(.data[0].filterListId) \(.data[0].url) \(.name)"' \
+    '$SOFTWARE[0][]|select(.name=="uBlock Origin").id as $vSoftId | $SOFTWARESYNTAX[0][]|select(.softwareId==$vSoftId).syntaxId as $vSoftSyntax | $FILTERLISTSYNTAX[0][]|select(.syntaxId|inside($vSoftSyntax)).filterListId as $vFilterListId | $FILTERLISTS[0][]|select(.id==$vFilterListId and (.isDeleted==true|not)) as $vFilterList | {name:$vFilterList.name, data:[$VIEWURL[0][]|select(.filterListId==$vFilterList.id)]} | "\(.data[0].filterListId) \(.data[0].url) \(.name)"' \
     > filterlists.com-id-url-name.txt
 
 echo -en "$H# Filter lists in total: $R"
