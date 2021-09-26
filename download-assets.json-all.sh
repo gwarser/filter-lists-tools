@@ -22,7 +22,6 @@ fi
 echo -e "$H# Downloading assets.json$L"
 if ! curl --compressed --location --progress-bar --time-cond assets.json \
     --output assets.json https://raw.githubusercontent.com/gorhill/uBlock/master/assets/assets.json
-
 then
     echo -e "$E# Failed to download assets.json$L"
     exit
@@ -41,24 +40,32 @@ grep -c '$' assets.json-id-url-name.txt
 echo -e "$H# Downloading lists$L"
 while read -r id url name
 do
-
     echo -e "$H# $id$L"
 
 #   Order in characters list is important.
     safename=$(echo -e "$name" | tr -cd -- "&'()+,. [:alnum:]_-")
     filepath="assets.json_resources/${id}_$safename.txt"
 
-    if curl --compressed --location --fail --progress-bar --create-dirs --time-cond "$filepath" \
-        --output "$filepath" "$url"
-
+    if [ -f "$filepath" ]
     then
-        echo -e "$name" > "assets.json_resources/${id}_name.txt"
+        filepathin="$filepath"
     else
-        ret=$?
-        echo -e "$H# Downloading failed$L"
-        echo -e "$(date +%F):\t($ret):\t$id\t$url\t$name" >> "failed-downloads-assets.json.txt"
+        filepathin="$filepath".zst
     fi
 
+    if curl --compressed --location --fail --progress-bar --create-dirs \
+        --time-cond "$filepathin" --output "$filepath" "$url"
+    then
+        if [ -f "$filepath" ]
+        then
+            zstd -fq "$filepath" && rm "$filepath"
+            echo -e "$name" > "assets.json_resources/${id}_name.txt"
+        fi
+    else
+        ret=$?
+        echo -e "$H# Download failed$L"
+        echo -e "$(date +%F):\t($ret):\t$id\t$url\t$name" >> "failed-downloads-assets.json.txt"
+    fi
 done < assets.json-id-url-name.txt
 
 

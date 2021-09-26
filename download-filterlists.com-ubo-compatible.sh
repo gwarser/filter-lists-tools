@@ -98,13 +98,24 @@ do
     safename=$(echo -e "$name" | tr -cd -- "&'()+,. [:alnum:]_-")
     filepath="filterlists.com_resources/${id}_$safename.txt"
 
-    if curl --compressed --location --fail --progress-bar --create-dirs \
-        --time-cond "$filepath" --output "$filepath" "$url"
+    if [ -f "$filepath" ]
     then
-        echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
+        filepathin="$filepath"
+    else
+        filepathin="$filepath".zst
+    fi
+
+    if curl --compressed --location --fail --progress-bar --create-dirs \
+        --time-cond "$filepathin" --output "$filepath" "$url"
+    then
+        if [ -f "$filepath" ]
+        then
+            zstd -fq "$filepath" && rm "$filepath"
+            echo -e "$name" > "filterlists.com_resources/${id}_name.txt"
+        fi
     else
         ret=$?
-        echo -e "$E# Downloading failed$R"
+        echo -e "$E# Download failed$R"
         echo -e "$(date +%F):\t404($ret):\t$id\t$url\t$name" >> "failed-downloads-filterlists.com.txt"
     fi
 done < filterlists.com-id-url-name.txt
